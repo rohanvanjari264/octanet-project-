@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOS Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative; /* Required for the pseudo-element to be positioned correctly */
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image.png'); /* Path to your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px); /* Adjust the blur effect */
+            z-index: -1; /* Ensure the overlay is behind the content */
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.5); /* Red overlay with transparency */
+            z-index: -1; /* Ensure the overlay is behind the content */
+        }
+
+        .container {
+            background-color: #ffffff; /* White background for the container */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            color: #c82333; /* Red color for SOS title */
+        }
+
+        .sos-button {
+            background-color: #c82333; /* Red button */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+
+        .sos-button:hover {
+            background-color: #a71d2a; /* Darker red on hover */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .map-container {
+            margin: 20px 0;
+            height: 400px;
+            width: 100%;
+            border: 1px solid #ff0000d3;
+            border-radius: 5px;
+        }
+
+        .footer {
+            padding: 10px 0;
+            background-color: #fdfdfd7e; /* Light gray background for the footer */
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer a {
+            color: rgba(255, 0, 0, 0.863);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            animation: disco 1s infinite; /* Disco effect animation */
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+                box-shadow: none; /* Optional: Remove shadow on smaller screens */
+            }
+
+            .sos-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+
+            .map-container {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                margin: 5px;
+            }
+
+            .sos-button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .map-container {
+                height: 200px;
+            }
+
+            .footer a {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>SOS Alert</h1>
+        <button class="sos-button" onclick="sendSOS()">Send SOS</button>
+
+        <div class="form-group">
+            <label for="emergency-type">Type of Emergency:</label>
+            <input type="text" id="emergency-type" placeholder="e.g., Medical, Fire, Theft">
+        </div>
+
+        <div class="form-group">
+            <label for="details">Details:</label>
+            <textarea id="details" rows="4" placeholder="Provide additional details..."></textarea>
+        </div>
+
+        <div class="map-container" id="map"></div>
+    </div>
+
+    <div class="footer">
+        <a href="https://mahilashakti.netlify.app/">Back to Home</a>
+    </div>
+
+    <script>
+        let map;
+        let marker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: { lat: 0, lng: 0 } // Default center
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const location = { lat: latitude, lng: longitude };
+
+                    map.setCenter(location);
+
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: map,
+                        title: 'You are here'
+                    });
+                }, () => {
+                    alert('Unable to retrieve your location.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function sendSOS() {
+            initMap(); // Initialize and display the map
+        }
+    </script>
+
+    <!-- Include Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+
+</body>
+</html>

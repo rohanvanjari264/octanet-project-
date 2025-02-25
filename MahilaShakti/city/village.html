@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Police Stations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .background {
+            background-image: url('image.png'); /* Path to your background image */ 
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent repeating the image */
+            height: 100vh; /* Full viewport height */
+            color: #000000; /* White text color for contrast */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            margin: 50px auto;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .box h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Footer with Disco Effect */
+        .footer {
+            margin-top: auto;
+            padding: 10px 0;
+            background-color: #fdfdfd7e; /* Dark gray background */
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            animation: disco 1s infinite; /* Disco effect animation */
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            select {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            select {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="container">
+            <h1>Search for Police Stations</h1>
+
+            <div class="form-group">
+                <label for="state">State</label>
+                <select id="state" name="state" onchange="updateDistricts()">
+                    <option value="">Select State</option>
+                    <option value="MH">Maharashtra</option>
+                    <option value="GJ">Gujarat</option>
+                    <!-- Add more states as needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="district">District</label>
+                <select id="district" name="district" onchange="updateTalukas()">
+                    <option value="">Select District</option>
+                    <!-- Add districts here based on the state selection -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="taluka">Taluka</label>
+                <select id="taluka" name="taluka" onchange="updateVillages()">
+                    <option value="">Select Taluka</option>
+                    <!-- Add talukas here based on the district selection -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="village">Village</label>
+                <select id="village" name="village">
+                    <option value="">Select Village</option>
+                    <!-- Add villages here based on the taluka selection -->
+                </select>
+            </div>
+            <button onclick="search()">Search Police Stations</button>
+            <button  onclick="showLocation()">Location</button> <!-- Added Location button -->
+
+            <div id="policeStationsContainer" class="box hidden">
+                <h2>Police Stations</h2>
+                <div id="policeStations"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code (same as before)
+
+        function showLocation() {
+            alert("Show Location functionality to be implemented.");
+        }
+    </script>
+
+    <div class="footer">
+        <a href="http://127.0.0.1:5500/index.html">Back to Home</a>
+    </div>
+</body>
+</html>

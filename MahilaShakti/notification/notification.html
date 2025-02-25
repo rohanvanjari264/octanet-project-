@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light gray background */
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('image.png'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-attachment: fixed; /* Keeps the background fixed in place */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+        }
+
+        .notification-container {
+            background-color: #ffffff; /* White background for the notifications */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .notification {
+            background-color: #eaf4ff; /* Light blue background for each notification */
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #007bff; /* Blue left border */
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .notification:hover {
+            background-color: #d1e7ff; /* Slightly darker blue on hover */
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .notification-header h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .notification-header .timestamp {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .notification p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        /* Footer with Disco Effect */
+        .footer {
+            padding: 10px 0;
+            background-color: #fdfdfd7e; /* Light gray background for the footer */
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            animation: disco 1s infinite; /* Disco effect animation */
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        
+        
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .notification-container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .notification {
+                padding: 12px;
+            }
+
+            .notification-header h4 {
+                font-size: 16px;
+            }
+
+            .notification-header .timestamp {
+                font-size: 10px;
+            }
+
+            .notification p {
+                font-size: 14px;
+            }
+
+            .footer a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notification-container {
+                padding: 10px;
+                margin: 5px;
+            }
+
+            .notification {
+                padding: 10px;
+            }
+
+            .notification-header h4 {
+                font-size: 14px;
+            }
+
+            .notification-header .timestamp {
+                font-size: 8px;
+            }
+
+            .notification p {
+                font-size: 12px;
+            }
+
+            .footer a {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification-container">
+        <div class="notification" onclick="showMessage('Help Alert Message: Please contact support for assistance.')">
+            <div class="notification-header">
+                <h4>Help Alert</h4>
+                <span class="timestamp">2024-08-25 10:00</span>
+            </div>
+            <p>Click here for help and support.</p>
+        </div>
+
+        <div class="notification" onclick="showMessage('Update Available: Please update your app to the latest version.')">
+            <div class="notification-header">
+                <h4>Update App</h4>
+                <span class="timestamp">2024-08-25 11:00</span>
+            </div>
+            <p>Click here to update your app.</p>
+        </div>
+
+        <div class="notification" onclick="showMessage('Thank You: We appreciate your feedback and support!')">
+            <div class="notification-header">
+                <h4>Thank You</h4>
+                <span class="timestamp">2024-08-25 12:00</span>
+            </div>
+            <p>Click here to see our appreciation message.</p>
+        </div>
+
+        <!-- Add more notifications here -->
+    </div>
+
+    <div class="footer">
+        <a href="https://mahilashakti.netlify.app/">Back to Home</a>
+    </div>
+
+    <script>
+        function showMessage(message) {
+            alert(message);
+        }
+    </script>
+
+</body>
+</html>

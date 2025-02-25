@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Police Stations</title>
+    <style>
+        body {
+            background-image: url('image.png'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-attachment: fixed; /* Keeps the background fixed in place */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent repeating the image */
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .box h2 {
+            margin: 0;
+            padding: 0;
+        }
+        .hidden {
+            display: none;
+        }
+               /* Footer with Disco Effect */
+       .footer {
+        margin-top: auto;
+        padding: 10px 0;
+        background-color: #fdfdfd7e; /* Dark gray background */
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer a {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        animation: disco 1s infinite; /* Disco effect animation */
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+     
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search for Police Stations</h1>
+
+        <div class="form-group">
+            <label for="state">State</label>
+            <select id="state" name="state" onchange="updateDistricts()">
+                <option value="">Select State</option>
+                <option value="MH">Maharashtra</option>
+                <option value="GJ">Gujarat</option>
+                <!-- Add more states as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="district">District</label>
+            <select id="district" name="district" onchange="updateTalukas()">
+                <option value="">Select District</option>
+                <!-- Add districts here based on the state selection -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="taluka">Taluka</label>
+            <select id="taluka" name="taluka" onchange="updateVillages()">
+                <option value="">Select Taluka</option>
+                <!-- Add talukas here based on the district selection -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="village">Village</label>
+            <select id="village" name="village">
+                <option value="">Select Village</option>
+                <!-- Add villages here based on the taluka selection -->
+            </select>
+        </div>
+        <button onclick="search()">Search Police Stations</button>
+
+        <div id="policeStationsContainer" class="box hidden">
+            <h2>Police Stations</h2>
+            <div id="policeStations"></div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data
+        const data = {
+            "MH": {
+                "Pune": {
+    "Haveli": ["Lohegaon", "Charoli"],
+    "Mulshi": ["Lavale", "Pirangut"],
+    "Baramati": ["Malegaon BK", "Nira"],
+    // Add more talukas and villages as needed
+    },
+    "Mumbai": {
+    "Mumbai City": ["Colaba", "Nariman Point"],
+    "Mumbai Suburban": ["Andheri", "Borivali"],
+    // Add more talukas and villages as needed
+    },
+    "Thane": {
+    "Thane": ["Kalwa", "Mumbra"],
+    "Kalyan": ["Dombivli", "Ulhasnagar"],
+    "Bhiwandi": ["Padgha", "Bhiwandi City"],
+    // Add more talukas and villages as needed
+    },
+    "Nagpur": {
+    "Nagpur Rural": ["Kalameshwar", "Hingna"],
+    "Nagpur City": ["Sitabuldi", "Sadar"],
+    "Katol": ["Saoner", "Narkhed"],
+    // Add more talukas and villages as needed
+    },
+    "Nashik": {
+    "Nashik": ["Panchavati", "Satpur"],
+    "Sinnar": ["Musalgaon", "Sinnar"],
+    "Igatpuri": ["Ghoti", "Igatpuri"],
+    // Add more talukas and villages as needed
+    },
+    "Kolhapur": {
+    "Karveer": ["Shahupuri", "Laxmipuri"],
+    "Panhala": ["Panhala", "Pisal Karul"],
+    "Shahuwadi": ["Malkapur", "Vadgaon"],
+    // Add more talukas and villages as needed
+    },
+    "Aurangabad": {
+    "Aurangabad": ["Chikalthana", "Cidco"],
+    "Paithan": ["Paithan", "Jategaon"],
+    "Gangapur": ["Gangapur", "Bidkin"],
+    // Add more talukas and villages as needed
+    },
+    "Solapur": {
+    "Solapur North": ["Hotgi", "Bale"],
+    "Solapur South": ["Kumthe", "Shelgi"],
+    "Pandharpur": ["Pandharpur", "Gopalpur"],
+    // Add more talukas and villages as needed
+    },
+    "Amravati": {
+    "Amravati": ["Rukhmini Nagar", "Badnera"],
+    "Chandur": ["Chandur Bazar", "Anjangaon Surji"],
+    "Morshi": ["Morshi", "Warud"],
+    // Add more talukas and villages as needed
+    },
+    "Satara": {
+    "Satara": ["Koregaon", "Medha"],
+    "Karad": ["Karad", "Patan"],
+    "Wai": ["Wai", "Bhuinj"],
+    // Add more talukas and villages as needed
+    },
+    // Add remaining 26 districts following the same pattern
+    "Raigad": {
+    "Alibag": ["Nagaon", "Kihim"],
+    "Panvel": ["New Panvel", "Kamothe"],
+    "Karjat": ["Karjat", "Kashele"],
+    // Add more talukas and villages as needed
+    },
+    "Ratnagiri": {
+    "Ratnagiri": ["Pali", "Chiplun"],
+    "Khed": ["Khed", "Dapoli"],
+    "Sangameshwar": ["Devrukh", "Sangameshwar"],
+    // Add more talukas and villages as needed
+    },
+    "Sindhudurg": {
+    "Kudal": ["Kudal", "Sawantwadi"],
+    "Malvan": ["Malvan", "Devbagh"],
+    "Vengurla": ["Vengurla", "Shiroda"],
+    // Add more talukas and villages as needed
+    },
+    "Palghar": {
+    "Palghar": ["Dahanu", "Jawhar"],
+    "Vasai": ["Vasai", "Nalasopara"],
+    "Wada": ["Wada", "Vikramgad"],
+    // Add more talukas and villages as needed
+    },
+    "Jalgaon": {
+    "Jalgaon": ["Erandol", "Amalner"],
+    "Bhusawal": ["Bhusawal", "Varangaon"],
+    "Chopda": ["Chopda", "Dharangaon"],
+    // Add more talukas and villages as needed
+    },
+    "Dhule": {
+    "Dhule": ["Sakri", "Shirpur"],
+    "Sindkheda": ["Sindkheda", "Dondaicha"],
+    "Shirpur": ["Shirpur", "Shindkheda"],
+    // Add more talukas and villages as needed
+    },
+    "Nandurbar": {
+    "Nandurbar": ["Shahada", "Navapur"],
+    "Akkalkuwa": ["Akkalkuwa", "Toranmal"],
+    "Taloda": ["Taloda", "Dhadgaon"],
+    },
+    "Jalna": {
+    "Jalna": ["Bhokardan", "Badnapur"],
+    "Ambad": ["Ambad", "Ghansawangi"],
+    "Partur": ["Partur", "Mantha"],
+    },
+    "Beed": {
+    "Beed": ["Ashti", "Kaij"],
+    "Ambejogai": ["Ambejogai", "Parli"],
+    "Georai": ["Georai", "Wadwani"],
+    },
+    "Latur": {
+    "Latur": ["Ausa", "Nilanga"],
+    "Udgir": ["Udgir", "Renapur"],
+    "Chakur": ["Chakur", "Shirur Anantpal"],
+    },
+    "Osmanabad": {
+    "Osmanabad": ["Tuljapur", "Omerga"],
+    "Bhum": ["Bhum", "Paranda"],
+    "Kalamb": ["Kalamb", "Washi"],
+    },
+    "Nanded": {
+    "Nanded": ["Kinwat", "Himayatnagar"],
+    "Deglur": ["Deglur", "Mukhed"],
+    "Biloli": ["Biloli", "Hadgaon"],
+    },
+    "Parbhani": {
+    "Parbhani": ["Gangakhed", "Pathri"],
+    "Jintur": ["Jintur", "Selu"],
+    "Purna": ["Purna", "Sonpeth"],
+    },
+    "Hingoli": {
+    "Hingoli": ["Sengaon", "Kalamnuri"],
+    "Basmath": ["Basmath", "Aundha Nagnath"],
+    },
+    "Buldhana": {
+    "Buldhana": ["Chikhli", "Mehkar"],
+    "Khamgaon": ["Khamgaon", "Jalgaon Jamod"],
+    "Malkapur": ["Malkapur", "Sangrampur"],
+    },
+    "Yavatmal": {
+    "Yavatmal": ["Pusad", "Digras"],
+    "Arni": ["Arni", "Ghatanji"],
+    "Umarkhed": ["Umarkhed", "Pandharkawda"],
+    },
+    "Washim": {
+    "Washim": ["Mangrulpir", "Karanja"],
+    "Risod": ["Risod", "Malegaon"],
+    },
+    "Akola": {
+    "Akola": ["Akot", "Balapur"],
+    "Murtijapur": ["Murtijapur", "Telhara"],
+    "Barshitakli": ["Barshitakli", "Patur"],
+    },
+    "Wardha": {
+    "Wardha": ["Hinganghat", "Seloo"],
+    "Deoli": ["Deoli", "Arvi"],
+    "Karanja": ["Karanja", "Ashti"],
+    },
+    "Chandrapur": {
+    "Chandrapur": ["Warora", "Bhadrawati"],
+    "Bramhapuri": ["Bramhapuri", "Mul"],
+    "Rajura": ["Rajura", "Korpana"],
+    },
+    "Gadchiroli": {
+    "Gadchiroli": ["Aheri", "Armori"],
+    "Kurkheda": ["Kurkheda", "Etapalli"],
+    "Dhanora": ["Dhanora", "Bhamragad"],
+    },
+                },
+                "GJ": {
+                    "Ahmedabad": {
+        "Daskroi": ["Aslali", "Badodara"],
+        "Sanand": ["Anadej", "Aniyali"]
+    },
+    "Surat": {
+        "Choryasi": ["Bardoli", "Kharvasa"],
+        "Kamrej": ["Ankleshwar", "Dabhoi"]
+    },
+    "Vadodara": {
+        "Vadodara": ["Sardar Patel", "Jambuva"],
+        "Savli": ["Gundlav", "Moti Bhoyan"]
+    },
+    "Rajkot": {
+        "Rajkot": ["Jamnagar", "Kotharia"],
+        "Gondal": ["Sasangadh", "Gondal"]
+    },
+    "Bhavnagar": {
+        "Bhavnagar": ["Madhavpura", "Jivapur"],
+        "Palitana": ["Palitana", "Sihor"]
+    },
+    "Jamnagar": {
+        "Jamnagar": ["Kalavad", "Kotharia"],
+        "Dwarka": ["Dwarka", "Okha"]
+    },
+    "Junagadh": {
+        "Junagadh": ["Upleta", "Junagadh"],
+        "Veraval": ["Veraval", "Mangrol"]
+    },
+    "Anand": {
+        "Anand": ["Vallabh Vidyanagar", "Anand"],
+        "Petlad": ["Petlad", "Matar"]
+    },
+    "Kheda": {
+        "Nadiad": ["Nadiad", "Matar"],
+        "Mahemdavad": ["Mahemdavad", "Kapadvanj"]
+    },
+    "Patan": {
+        "Patan": ["Patan", "Sidhpur"],
+        "Sidhpur": ["Sidhpur", "Radhanpur"]
+    },
+    "Gandhinagar": {
+        "Gandhinagar": ["Gandhinagar", "Mansa"],
+        "Mansa": ["Mansa", "Kalol"]
+    },
+    "Kutch": {
+        "Bhuj": ["Bhuj", "Gandhidham"],
+        "Gandhidham": ["Gandhidham", "Anjar"]
+    },
+    "Amreli": {
+        "Amreli": ["Amreli", "Bagasara"],
+        "Bagasara": ["Bagasara", "Rajula"]
+    },
+    "Banaskantha": {
+        "Palanpur": ["Palanpur", "Deesa"],
+        "Deesa": ["Deesa", "Tharad"]
+    },
+    "Bharuch": {
+        "Bharuch": ["Bharuch", "Ankleshwar"],
+        "Ankleshwar": ["Ankleshwar", "Narmada"]
+    },
+    "Dahod": {
+        "Dahod": ["Dahod", "Jhalod"],
+        "Jhalod": ["Jhalod", "Pati"]
+    },
+    "Dang": {
+        "Ahwa": ["Ahwa", "Waghai"],
+        "Waghai": ["Waghai", "Saputara"]
+    },
+    "Dwarka": {
+        "Dwarka": ["Dwarka", "Okha"],
+        "Okha": ["Okha", "Kalyanpur"]
+    },
+    "Gir Somnath": {
+        "Somnath": ["Somnath", "Talala"],
+        "Talala": ["Talala", "Veraval"]
+    },
+    "Mehsana": {
+        "Mehsana": ["Mehsana", "Vijapur"],
+        "Vijapur": ["Vijapur", "Kadi"]
+    },
+    "Morbi": {
+        "Morbi": ["Morbi", "Wankaner"],
+        "Wankaner": ["Wankaner", "Rangpar"]
+    },
+    "Narmada": {
+        "Rajpipla": ["Rajpipla", "Dediapada"],
+        "Dediapada": ["Dediapada", "Narmada"]
+    },
+    "Navsari": {
+        "Navsari": ["Navsari", "Gandevi"],
+        "Gandevi": ["Gandevi", "Vapi"]
+    },
+    "Panchmahal": {
+        "Godhra": ["Godhra", "Halol"],
+        "Halol": ["Halol", "Lunawada"]
+    },
+    "Sabarkantha": {
+        "Himmatnagar": ["Himmatnagar", "Prantij"],
+        "Prantij": ["Prantij", "Idar"]
+    },
+    "Surendranagar": {
+        "Surendranagar": ["Surendranagar", "Dhrangadhra"],
+        "Dhrangadhra": ["Dhrangadhra", "Wadhwan"]
+    },
+    "Tapi": {
+        "Vyara": ["Vyara", "Songadh"],
+        "Songadh": ["Songadh", "Chhota Udepur"]
+    },
+    "Valsad": {
+        "Valsad": ["Valsad", "Pardi"],
+        "Pardi": ["Pardi", "Vapi"]
+    },
+    "Aravalli": {
+        "Modasa": ["Modasa", "Bayad"],
+        "Bayad": ["Bayad", "Khedbrahma"]
+    },
+    "Botad": {
+        "Botad": ["Botad", "Gadhada"],
+        "Gadhada": ["Gadhada", "Sarangpur"]
+    },
+    "Chhota Udaipur": {
+        "Chhota Udaipur": ["Chhota Udaipur", "Bodeli"],
+        "Bodeli": ["Bodeli", "Ratanmahal"]
+    },
+    "Mahisagar": {
+        "Lunawada": ["Lunawada", "Balasinor"],
+        "Balasinor": ["Balasinor", "Lunawada"]
+    },
+    "Devbhoomi Dwarka": {
+        "Dwarka": ["Dwarka", "Kalyanpur"],
+        "Kalyanpur": ["Kalyanpur", "Khambhalia"]
+    },
+    "Tapi": {
+        "Vyara": ["Vyara", "Songadh"],
+        "Songadh": ["Songadh", "Valod"]
+    }
+                }
+            };
+
+
+        
+
+        function updateDistricts() {
+            const state = document.getElementById('state').value;
+            const districtSelect = document.getElementById('district');
+            districtSelect.innerHTML = '<option value="">Select District</option>';
+            document.getElementById('taluka').innerHTML = '<option value="">Select Taluka</option>';
+            document.getElementById('village').innerHTML = '<option value="">Select Village</option>';
+
+            if (state) {
+                const districts = Object.keys(data[state]);
+                districts.forEach(district => {
+                    const option = document.createElement('option');
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateTalukas() {
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const talukaSelect = document.getElementById('taluka');
+            talukaSelect.innerHTML = '<option value="">Select Taluka</option>';
+            document.getElementById('village').innerHTML = '<option value="">Select Village</option>';
+
+            if (state && district) {
+                const talukas = Object.keys(data[state][district]);
+                talukas.forEach(taluka => {
+                    const option = document.createElement('option');
+                    option.value = taluka;
+                    option.textContent = taluka;
+                    talukaSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateVillages() {
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const taluka = document.getElementById('taluka').value;
+            const villageSelect = document.getElementById('village');
+            villageSelect.innerHTML = '<option value="">Select Village</option>';
+
+            if (state && district && taluka) {
+                const villages = data[state][district][taluka].villages;
+                villages.forEach(village => {
+                    const option = document.createElement('option');
+                    option.value = village;
+                    option.textContent = village;
+                    villageSelect.appendChild(option);
+                });
+            }
+        }
+
+        function search() {
+            const state = document.getElementById('state').value;
+            const district = document.getElementById('district').value;
+            const taluka = document.getElementById('taluka').value;
+            const village = document.getElementById('village').value;
+            const policeStationsContainer = document.getElementById('policeStations');
+            policeStationsContainer.innerHTML = '';
+            document.getElementById('policeStationsContainer').classList.add('hidden');
+
+            if (state && district && taluka && village) {
+                const policeStations = data[state][district][taluka].policeStations;
+                policeStations.forEach(policeStation => {
+                    const policeStationElement = document.createElement('div');
+                    policeStationElement.textContent = policeStation;
+                    policeStationsContainer.appendChild(policeStationElement);
+                });
+                document.getElementById('policeStationsContainer').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+<div class="footer">
+    <a href="https://mahilashakti.netlify.app/">Back to Home</a> <!-- Replace 'home.html' with the actual URL of your home page -->
+</div>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

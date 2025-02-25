@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 100px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333; /* Dark gray text */
+            background-image: url('image.png'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-attachment: fixed; /* Keeps the background fixed in place */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent repeating the image */
+        }
+
+        .login-container {
+            background-color: #ffffff; /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .login-container h2 {
+            background-image: url('Images/image.png'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            margin: 0 0 20px 0;
+            color: #4CAF50; /* Green color for the header */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50; /* Green border on focus */
+            outline: none;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50; /* Green background for the button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .form-options {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-options a {
+            color: #000000; /* Green color for the links */
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer with Disco Effect */
+        .footer {
+            margin-top: auto;
+            padding: 10px 0;
+            background-color: #fdfdfd7e; /* Dark gray background */
+            width: 100%;
+            text-align: center;
+        }
+
+        .footer a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            animation: disco 1s infinite; /* Disco effect animation */
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+       
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/submit-login" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+        <div class="form-options">
+            <a href="signup.html">Sign Up</a>
+            <a href="forgetpw.html">Forgot Password?</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://mahilashakti.netlify.app/">Back to Home</a> <!-- Replace 'home.html' with the actual URL of your home page -->
+    </div>
+
+</body>
+</html>

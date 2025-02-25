@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remove the margin from the body */
+            padding: 0;
+            background-color: #f0f0f0; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333; /* Dark gray text */
+            background-image: url('image.png'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-attachment: fixed; /* Keeps the background fixed in place */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+        }
+
+        .profile-container {
+            background-color: #fff; /* White background for the profile box */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-photo {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid #918d30ca; /* Green border around the profile photo */
+        }
+
+        .profile-header h2 {
+            margin: 0;
+            color: #4CAF50; /* Green color for the header */
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-group label {
+            flex: 1;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            flex: 2;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: #4CAF50; /* Green border on focus */
+            outline: none;
+        }
+
+        .form-group-full {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group-full label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group-full textarea {
+            width: 100%;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background for buttons */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px 0;
+            background-color: #fdfdfd7e; /* Light gray background */
+            width: 100%;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            animation: disco 1s infinite; /* Disco effect animation */
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+  
+
+        .edit-form {
+            display: none; /* Hide edit form by default */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+                margin-right: 15px;
+            }
+
+            .profile-header h2 {
+                font-size: 20px;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .form-group {
+                flex-direction: column;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+                margin-right: 0;
+            }
+
+            .form-group input, .form-group textarea, .form-group select {
+                width: 100%;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .button-container button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 10px;
+                margin: 5px;
+            }
+
+            .profile-photo {
+                width: 80px;
+                height: 80px;
+                margin-right: 10px;
+            }
+
+            .profile-header h2 {
+                font-size: 18px;
+                margin-top: 5px;
+            }
+
+            .form-group {
+                flex-direction: column;
+            }
+
+            .form-group label {
+                margin-bottom: 5px;
+                margin-right: 0;
+            }
+
+            .form-group input, .form-group textarea, .form-group select {
+                width: 100%;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .button-container button {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="profile-photo.jpg" alt="Profile Photo" class="profile-photo">
+            <h2>Profile Name</h2>
+        </div>
+        
+        <div id="view-form" class="form-container">
+            <div class="form-group">
+                <label for="view-name">Name</label>
+                <input type="text" id="view-name" value="Name" readonly>
+            </div>
+            <div class="form-group">
+                <label for="view-middle-name">Middle Name</label>
+                <input type="text" id="view-middle-name" value="Middle Name" readonly>
+            </div>
+            <div class="form-group">
+                <label for="view-surname">Surname</label>
+                <input type="text" id="view-surname" value="Surname" readonly>
+            </div>
+            <div class="form-group">
+                <label for="view-mobile">Mobile Number</label>
+                <input type="tel" id="view-mobile" value="Mobile Number" readonly>
+            </div>
+            <div class="form-group">
+                <label for="view-parent-mobile">Parent Mobile Number</label>
+                <input type="tel" id="view-parent-mobile" value="Parent Mobile Number" readonly>
+            </div>
+            <div class="form-group">
+                <label for="view-email">Email ID</label>
+                <input type="email" id="view-email" value="Email ID" readonly>
+            </div>
+            <div class="form-group-full">
+                <label for="view-address">Address</label>
+                <textarea id="view-address" rows="3" readonly>Address</textarea>
+            </div>
+            <div class="form-group">
+                <label for="view-aadhaar">Aadhaar Number</label>
+                <input type="text" id="view-aadhaar" value="Aadhaar Number" readonly>
+            </div>
+            <div class="button-container">
+                <button onclick="toggleEditForm()">Edit</button>
+            </div>
+        </div>
+
+        <div id="edit-form" class="form-container edit-form">
+            <form>
+                <div class="form-group">
+                    <label for="edit-name">Name</label>
+                    <input type="text" id="edit-name" name="Name" value="Name">
+                </div>
+                <div class="form-group">
+                    <label for="edit-middle-name">Middle Name</label>
+                    <input type="text" id="edit-middle-name" name="Middle Name" value="Middle Name">
+                </div>
+                <div class="form-group">
+                    <label for="edit-surname">Surname</label>
+                    <input type="text" id="edit-surname" name="Surname" value="Surname">
+                </div>
+                <div class="form-group">
+                    <label for="edit-mobile">Mobile Number</label>
+                    <input type="tel" id="edit-mobile" name="Mobile Number" value="Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label for="edit-parent-mobile">Parent Mobile Number</label>
+                    <input type="tel" id="edit-parent-mobile" name="Parent Mobile Number" value="Parent Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email ID</label>
+                    <input type="email" id="edit-email" name="Email ID" value="Email ID">
+                </div>
+                <div class="form-group-full">
+                    <label for="edit-address">Address</label>
+                    <textarea id="edit-address" name="Address" rows="3">Address</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit-aadhaar">Aadhaar Number</label>
+                    <input type="text" id="edit-aadhaar" name="Aadhaar Number" value="Aadhaar Number">
+                </div>
+                <div class="form-group">
+                    <label for="edit-password">Change Password</label>
+                    <input type="text" id="edit-password" name="Change Password" value="Change Password">
+                </div>
+                <div class="button-container">
+                    <button type="button" onclick="saveChanges()">Save Changes</button>
+                    <button type="button" onclick="toggleEditForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="footer">
+            <a href="https://mahilashakti.netlify.app/">Back to Home</a> <!-- Replace 'home.html' with the actual URL of your home page -->
+        </div>
+    </div>
+
+    <script>
+        function toggleEditForm() {
+            const viewForm = document.getElementById('view-form');
+            const editForm = document.getElementById('edit-form');
+            if (viewForm.style.display === 'none') {
+                viewForm.style.display = 'block';
+                editForm.style.display = 'none';
+            } else {
+                viewForm.style.display = 'none';
+                editForm.style.display = 'block';
+            }
+        }
+
+        function saveChanges() {
+            // Example of saving changes functionality
+            alert('Changes saved successfully!');
+            // Ideally, you would send the updated data to the server here
+            toggleEditForm();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333; /* Dark gray text */
+            background-image: url('image.png'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-attachment: fixed; /* Keeps the background fixed in place */
+            background-position: center; /* Centers the background image */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+            background-size: cover; /* Cover the entire viewport */
+        }
+
+        .container {
+            background-color: #fff; /* White background for the form box */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h2 {
+            color: #4CAF50; /* Green color for the header */
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50; /* Green border on focus */
+            outline: none;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green background for buttons */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .footer {
+            margin-top: 20px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                max-width: 90%;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .button-container button {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .form-group input {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            .form-group input {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            .button-container button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .footer a {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            h2 {
+                font-size: 18px;
+            }
+
+            .form-group input {
+                padding: 6px;
+                font-size: 12px;
+            }
+
+            .button-container button {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .footer a {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Forgot Password</h2>
+        <p>Please enter your email address to receive a password reset link.</p>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email address">
+        </div>
+        <div class="button-container">
+            <button onclick="sendResetLink()">Send Reset Link</button>
+        </div>
+        <div class="footer">
+            <p>Remembered your password? <a href="login.html">Back to Login</a></p>
+        </div>
+    </div>
+
+    <script>
+        function sendResetLink() {
+            var email = document.getElementById('email').value;
+            if (email) {
+                // Simulate sending a password reset link
+                alert('Password reset link has been sent to ' + email);
+                // Here, you would typically make an AJAX request to your server to send the email.
+                // For example:
+                // fetch('/api/forgot-password', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify({ email: email })
+                // }).then(response => response.json())
+                //   .then(data => {
+                //       alert('Password reset link has been sent to ' + email);
+                //   }).catch(error => {
+                //       console.error('Error:', error);
+                //   });
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+    </script>
+
+</body>
+</html>
